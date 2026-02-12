@@ -22,16 +22,22 @@ export default function App() {
     <>
       <section className="mt-5">
         <div className="container text-center p-5">
-          <h1 className="text-start mb-4">Catalogo film:</h1>
+          <h1 className="text-start mb-2">Catalogo film:</h1>
+
           <ul className="list-group list-group-flush text-start">
             {films.map((film, index) => {
               return (
                 <li
                   key={index}
-                  className="list-group-item d-flex justify-content-between"
+                  className="list-group-item d-flex justify-content-between align-items-center"
                 >
-                  {film.title}
-                  <p className="d-inline">{film.genre}</p>
+                  <span>{film.title}</span>
+                  <div className="wrap text-center">
+                    <p className="d-inline-block mb-0 flex-grow-1">
+                      {film.genre}
+                    </p>
+                  </div>
+                  <button>Delete</button>
                 </li>
               );
             })}
