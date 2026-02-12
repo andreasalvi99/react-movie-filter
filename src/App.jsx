@@ -44,20 +44,26 @@ export default function App() {
         <div className="container text-center p-5">
           <h1 className="text-start mb-3">Catalogo film:</h1>
           <select
-            className="form-select mb-3"
+            className="form-select mb-3 text-muted"
             aria-label="Default select example"
             value={selectedGenre}
             onChange={(e) => {
               setSelectedGenre(e.target.value);
             }}
           >
-            <option></option>
+            <option className="text-muted">Filtra...</option>
             {startingGenres.map((genre, index) => (
               <option key={index} value={genre}>
                 {genre}
               </option>
             ))}
           </select>
+          <input
+            class="form-control my-3"
+            type="text"
+            placeholder="Cerca per nome..."
+            aria-label=".form-control-sm example"
+          ></input>
           <ul className="list-group list-group-flush text-start">
             {filteredFilms.map((film, index) => (
               <li
@@ -74,6 +80,22 @@ export default function App() {
               </li>
             ))}
           </ul>
+          <div className="input-group my-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Aggiungi film..."
+              aria-label="Recipient’s username"
+              aria-describedby="button-addon2"
+            />
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              id="button-addon2"
+            >
+              + Aggiungi
+            </button>
+          </div>
         </div>
       </section>
     </>
