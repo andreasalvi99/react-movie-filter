@@ -39,7 +39,7 @@ export default function App() {
 
     // ? Filtro per titolo(input)
     const sanifiedInput = userInputFilter.toLowerCase().trim();
-    if (sanifiedInput !== "") {
+    if (sanifiedInput) {
       filteredList = filteredList.filter((film) => {
         const sanifiedTitle = film.title.toLowerCase().trim();
         return sanifiedTitle.includes(sanifiedInput);
@@ -65,7 +65,7 @@ export default function App() {
             <option className="text-muted">Filtra...</option>
             {newGenres.map((genre, index) => (
               <option key={index} value={genre}>
-                {genre}
+                <span>{genre}</span>
               </option>
             ))}
           </select>
@@ -80,6 +80,11 @@ export default function App() {
             aria-label=".form-control-sm example"
           ></input>
           <ul className="list-group list-group-flush text-start">
+            <li className="d-flex justify-content-between fw-bolder mb-2">
+              <span className="headers">Titolo:</span>
+              <span className="headers">Genere:</span>
+              <span className="headers"></span>
+            </li>
             {filteredFilms.map((film, index) => (
               <li
                 key={index}
@@ -91,7 +96,7 @@ export default function App() {
                     {film.genre}
                   </p>
                 </div>
-                <button>Delete</button>
+                <span></span>
               </li>
             ))}
           </ul>
@@ -104,7 +109,6 @@ export default function App() {
                 ...films,
                 { title: userInputTitleAdd, genre: userInputGenreAdd },
               ]);
-              console.log(userInputTitleAdd);
             }}
           >
             <input
@@ -134,20 +138,19 @@ export default function App() {
           <button
             onClick={() => {
               if (!userInputGenreAdd) return;
-              const sanifiedGenre = userInputGenreAdd.trim();
+              const sanifiedNewGenre = userInputGenreAdd.trim();
+              const sanifiedNewTitle = userInputTitleAdd.trim();
               setFilms([
                 ...films,
                 {
-                  title: userInputTitleAdd.trim(),
-                  genre: sanifiedGenre,
+                  title: sanifiedNewTitle,
+                  genre: sanifiedNewGenre,
                 },
               ]);
-
-              const genreToAdd = sanifiedGenre;
+              const genreToAdd = sanifiedNewGenre;
               if (!newGenres.includes(genreToAdd)) {
                 setNewGenres([...newGenres, genreToAdd]);
               }
-              console.log(userInputTitleAdd);
             }}
             className="btn btn-outline-primary"
             type="button"
