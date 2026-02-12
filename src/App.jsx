@@ -25,12 +25,13 @@ export default function App() {
   const [userInputFilter, setUserInputFilter] = useState(""); // ? Stato dell'input filtro per nome all'inizio
   const [userInputTitleAdd, setUserInputTitleAdd] = useState(""); // ? Stato dell'input aggiungi titolo all'inizio
   const [userInputGenreAdd, setUserInputGenreAdd] = useState(""); // ? Stato dell'input aggiungi genere all'inizio
+  const [newGenres, setNewGenres] = useState(startingGenres); // ? Stato della lista dei generi all'inizio
 
   useEffect(() => {
     let filteredList = films;
 
     // ? Filtro per genere(select)
-    if (startingGenres.includes(selectedGenre)) {
+    if (newGenres.includes(selectedGenre)) {
       filteredList = filteredList.filter((film) => {
         return film.genre === selectedGenre;
       });
@@ -62,7 +63,7 @@ export default function App() {
             }}
           >
             <option className="text-muted">Filtra...</option>
-            {startingGenres.map((genre, index) => (
+            {newGenres.map((genre, index) => (
               <option key={index} value={genre}>
                 {genre}
               </option>
@@ -98,6 +99,7 @@ export default function App() {
             className="input-group my-3 form"
             onSubmit={(e) => {
               e.preventDefault();
+              if (!userInputGenreAdd) return;
               setFilms([
                 ...films,
                 { title: userInputTitleAdd, genre: userInputGenreAdd },
@@ -130,12 +132,21 @@ export default function App() {
             />
           </form>
           <button
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
+              if (!userInputGenreAdd) return;
+              const sanifiedGenre = userInputGenreAdd.trim();
               setFilms([
                 ...films,
-                { title: userInputTitleAdd, genre: userInputGenreAdd },
+                {
+                  title: userInputTitleAdd.trim(),
+                  genre: sanifiedGenre,
+                },
               ]);
+
+              const genreToAdd = sanifiedGenre;
+              if (!newGenres.includes(genreToAdd)) {
+                setNewGenres([...newGenres, genreToAdd]);
+              }
               console.log(userInputTitleAdd);
             }}
             className="btn btn-outline-primary"
