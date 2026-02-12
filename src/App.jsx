@@ -28,11 +28,15 @@ export default function App() {
     const updatedFilteredFilms = films.filter((film) => {
       console.log(film.genre);
 
+      if (!startingGenres.includes(selectedGenre)) {
+        return true;
+      }
+
       return film.genre.includes(selectedGenre);
     });
     console.log(updatedFilteredFilms);
     setFilteredFilms(updatedFilteredFilms);
-  }, [startingFilms]);
+  }, [selectedGenre]);
 
   return (
     <>
@@ -44,13 +48,10 @@ export default function App() {
             aria-label="Default select example"
             value={selectedGenre}
             onChange={(e) => {
-              console.log("selectedGenre:", selectedGenre);
-
               setSelectedGenre(e.target.value);
-              console.log("setSelectedGenre:", e.target.value);
             }}
           >
-            <option selected>Filtra</option>
+            <option></option>
             {startingGenres.map((genre, index) => (
               <option key={index} value={genre}>
                 {genre}
