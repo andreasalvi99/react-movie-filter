@@ -7,6 +7,21 @@ const films = [
   { title: "Pulp Fiction", genre: "Thriller" },
 ];
 
+const genres = []; // ?? Questo è l'array che userò nel select
+
+for (let i = 0; i < films.length; i++) {
+  const currentGenre = films[i].genre;
+  console.log(currentGenre);
+  if (genres.includes(currentGenre)) {
+    break;
+  } else {
+    {
+      genres.push(currentGenre);
+    }
+  }
+  console.table(genres);
+}
+
 export default function App() {
   return (
     <>
