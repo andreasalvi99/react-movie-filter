@@ -1,4 +1,6 @@
-const films = [
+import { useState } from "react";
+
+const startingFilms = [
   { title: "Inception", genre: "Fantascienza" },
   { title: "Il Padrino", genre: "Thriller" },
   { title: "Titanic", genre: "Romantico" },
@@ -9,8 +11,8 @@ const films = [
 
 const genres = []; // ?? Questo è l'array che userò nel select
 
-for (let i = 0; i < films.length; i++) {
-  const currentGenre = films[i].genre;
+for (let i = 0; i < startingFilms.length; i++) {
+  const currentGenre = startingFilms[i].genre;
   if (!genres.includes(currentGenre)) {
     genres.push(currentGenre);
     console.table(genres);
@@ -18,14 +20,28 @@ for (let i = 0; i < films.length; i++) {
 }
 
 export default function App() {
+  const [films, setFilms] = useState(startingFilms);
+
   return (
     <>
       <section className="mt-5">
         <div className="container text-center p-5">
-          <h1 className="text-start mb-2">Catalogo film:</h1>
-
+          <h1 className="text-start mb-3">Catalogo film:</h1>
+          <select
+            className="form-select mb-3"
+            aria-label="Default select example"
+          >
+            <option selected>Filtra</option>
+            {genres.map((genre, index) => {
+              return (
+                <option key={index} value={genre}>
+                  {genre}
+                </option>
+              );
+            })}
+          </select>
           <ul className="list-group list-group-flush text-start">
-            {films.map((film, index) => {
+            {startingFilms.map((film, index) => {
               return (
                 <li
                   key={index}
