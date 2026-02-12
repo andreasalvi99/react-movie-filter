@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const startingFilms = [
   { title: "Inception", genre: "Fantascienza" },
@@ -9,18 +9,30 @@ const startingFilms = [
   { title: "Pulp Fiction", genre: "Thriller" },
 ];
 
-const genres = []; // ?? Questo è l'array che userò nel select
+const startingGenres = []; // ?? Questo è l'array che userò nel select
 
 for (let i = 0; i < startingFilms.length; i++) {
   const currentGenre = startingFilms[i].genre;
-  if (!genres.includes(currentGenre)) {
-    genres.push(currentGenre);
-    console.table(genres);
+  if (!startingGenres.includes(currentGenre)) {
+    startingGenres.push(currentGenre);
+    console.table(startingGenres);
   }
 }
 
 export default function App() {
   const [films, setFilms] = useState(startingFilms);
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [filteredFilms, setFilteredFilms] = useState(films);
+
+  useEffect(() => {
+    const updatedFilteredFilms = films.filter((film) => {
+      console.log(film.genre);
+
+      return film.genre.includes(selectedGenre);
+    });
+    console.log(updatedFilteredFilms);
+    setFilteredFilms(updatedFilteredFilms);
+  }, [startingFilms]);
 
   return (
     <>
@@ -30,33 +42,36 @@ export default function App() {
           <select
             className="form-select mb-3"
             aria-label="Default select example"
+            value={selectedGenre}
+            onChange={(e) => {
+              console.log("selectedGenre:", selectedGenre);
+
+              setSelectedGenre(e.target.value);
+              console.log("setSelectedGenre:", e.target.value);
+            }}
           >
             <option selected>Filtra</option>
-            {genres.map((genre, index) => {
-              return (
-                <option key={index} value={genre}>
-                  {genre}
-                </option>
-              );
-            })}
+            {startingGenres.map((genre, index) => (
+              <option key={index} value={genre}>
+                {genre}
+              </option>
+            ))}
           </select>
           <ul className="list-group list-group-flush text-start">
-            {startingFilms.map((film, index) => {
-              return (
-                <li
-                  key={index}
-                  className="list-group-item d-flex justify-content-between align-items-center"
-                >
-                  <span>{film.title}</span>
-                  <div className="wrap text-center">
-                    <p className="d-inline-block mb-0 flex-grow-1">
-                      {film.genre}
-                    </p>
-                  </div>
-                  <button>Delete</button>
-                </li>
-              );
-            })}
+            {filteredFilms.map((film, index) => (
+              <li
+                key={index}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span>{film.title}</span>
+                <div className="wrap text-center">
+                  <p className="d-inline-block mb-0 flex-grow-1">
+                    {film.genre}
+                  </p>
+                </div>
+                <button>Delete</button>
+              </li>
+            ))}
           </ul>
         </div>
       </section>
