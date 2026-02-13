@@ -151,6 +151,8 @@ export default function App() {
               if (!newGenres.includes(genreToAdd)) {
                 setNewGenres([...newGenres, genreToAdd]);
               }
+              setUserInputTitleAdd("");
+              setUserInputGenreAdd("");
             }}
             className="btn btn-outline-primary"
             type="button"
